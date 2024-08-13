@@ -1,495 +1,569 @@
-﻿@model IEnumerable<eConnectWebApp.Models.Employee>
+﻿@model IEnumerable<eConnectWebApp.Models.ViewModels.EmployeeListDetailsVm>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button id="btnAddEmployee" type="button" class="btn btn-primary">Add Employee</button>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FRSTNAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LASTNAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ADDRESS1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ADRSCODE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CITY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ZIPCODE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EMPLCLAS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.INACTIVE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MIDLNAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EMPLSUFF)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ADDRESS2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ADDRESS3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.STATE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.COUNTY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.COUNTRY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PHONE1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PHONE2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PHONE3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FAX)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BRTHDATE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GENDER)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ETHNORGN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DIVISIONCODE_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SUPERVISORCODE_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LOCATNID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WCACFPAY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AccountNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WKHRPRYR)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.STRTDATE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DEMPINAC)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RSNEMPIN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SUTASTAT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WRKRCOMP)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.STMACMTH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USERDEF1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USERDEF2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MARITALSTATUS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BENADJDATE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LASTDAYWORKED_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BIRTHDAY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BIRTHMONTH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SPOUSE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SPOUSESSN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NICKNAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ALTERNATENAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.STATUSCD)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HRSTATUS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DATEOFLASTREVIEW_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DATEOFNEXTREVIEW_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BENEFITEXPIRE_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HANDICAPPED)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VETERAN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VIETNAMVETERAN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DISABLEDVETERAN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UNIONEMPLOYEE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SMOKER_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CITIZEN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VERIFIED)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.I9RENEW)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Primary_Pay_Record)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CHANGEBY_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CHANGEDATE_I)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UNIONCD)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RATECLSS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FEDCLSSCD)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OTHERVET)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Military_Discharge_Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DefaultFromClass)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdateIfExists)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequesterTrx)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USRDEFND1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USRDEFND2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USRDEFND3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USRDEFND4)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USRDEFND5)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SOCSCNUM)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DEPRTMNT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JOBTITLE)
-        </th>
-        <th></th>
-    </tr>
+<table id="tblEmployeesList" class="table table-striped hover">
+    <thead>
+        <tr>
+            <th>
+                Employee ID
+            </th>
+            <th>
+                LASTNAME
+            </th>
+            <th>
+                FRSTNAME
+            </th>
+            <th>
+                GENDER
+            </th>
+            <th>
+                Id Number
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMPLOYID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LASTNAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FRSTNAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GENDER)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SOCSCNUM)
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item btnManageAcc" data-actindx="@item.EMPLOYID"> Edit Details</a>
+                        </div>
+                    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FRSTNAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LASTNAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ADDRESS1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ADRSCODE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CITY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ZIPCODE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EMPLCLAS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.INACTIVE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MIDLNAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EMPLSUFF)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ADDRESS2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ADDRESS3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.COUNTY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.COUNTRY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PHONE1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PHONE2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PHONE3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FAX)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BRTHDATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GENDER)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ETHNORGN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DIVISIONCODE_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SUPERVISORCODE_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LOCATNID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WCACFPAY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccountNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WKHRPRYR)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STRTDATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DEMPINAC)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RSNEMPIN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SUTASTAT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WRKRCOMP)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STMACMTH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USERDEF1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USERDEF2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MARITALSTATUS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BENADJDATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LASTDAYWORKED_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BIRTHDAY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BIRTHMONTH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SPOUSE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SPOUSESSN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NICKNAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ALTERNATENAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STATUSCD)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HRSTATUS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DATEOFLASTREVIEW_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DATEOFNEXTREVIEW_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BENEFITEXPIRE_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HANDICAPPED)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VETERAN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VIETNAMVETERAN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DISABLEDVETERAN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UNIONEMPLOYEE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SMOKER_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CITIZEN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VERIFIED)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.I9RENEW)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Primary_Pay_Record)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CHANGEBY_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CHANGEDATE_I)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UNIONCD)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RATECLSS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FEDCLSSCD)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OTHERVET)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Military_Discharge_Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DefaultFromClass)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdateIfExists)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RequesterTrx)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USRDEFND1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USRDEFND2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USRDEFND3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USRDEFND4)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USRDEFND5)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SOCSCNUM)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DEPRTMNT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JOBTITLE)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EMPLOYID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EMPLOYID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EMPLOYID })
-        </td>
-    </tr>
-}
-
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<div class="modal fade modal-lg" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>*@
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_EMPLOYID" for="EMPLOYID">EMPLOYEE ID</label>
+                                <input type="text" class="form-control" id="EMPLOYID" name="EMPLOYID" disabled />
+                            </div>
+                            <div class="col-md-6">
+                                <label id="lbl_employeeTypeDropDown"  for="employeeTypeDropDown">EMPLOYEE TYPE</label>
+                                <select id="employeeTypeDropDown" name="EmployeeTypeID" class="form-control">
+                                    <option value="">-- Select type --</option>
+                                    Example options
+                                    @foreach (var empType in ViewBag.EmployeeTypeDropDown)
+                                    {
+                                        <option value="@empType.EmployeeTypeID">@empType.EmployeeType</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label  id="lbl_LASTNAME" for="LASTNAME">LAST NAME</label>
+                                <input type="text" class="form-control" id="LASTNAME" name="LASTNAME" />
+                            </div>
+                            <div class="col-md-6">
+                                <label  id="lbl_FRSTNAME" for="FRSTNAME">FIRST NAME:</label>
+                                <input type="text" class="form-control" id="FRSTNAME" name="FRSTNAME" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label  id="lbl_MIDLNAME" for="MIDLNAME">MIDDLE NAME</label>
+                                <input type="text" class="form-control" id="MIDLNAME" name="MIDLNAME" />
+                            </div>
+                            <div class="col-md-6">
+                                <label  id="lbl_SOCSCNUM" for="SOCSCNUM">ID NUMBER</label>
+                                <input type="text" class="form-control" id="SOCSCNUM" name="SOCSCNUM" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_ADRSCODE" for="ADRSCODE">ADDRESS CODE</label>
+                                <input type="text" class="form-control" id="ADRSCODE" name="ADRSCODE" />
+                            </div>
+                            <div class="col-md-6">
+                                <label id="lbl_ADDRESS1" for="ADDRESS1">ADDRESS LINE 1</label>
+                                <input type="text" class="form-control" id="ADDRESS1" name="ADDRESS1" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_ADDRESS2" for="ADDRESS2">ADDRESS LINE 2</label>
+                                <input type="text" class="form-control" id="ADDRESS2" name="ADDRESS2" />
+                            </div>
+                            <div class="col-md-6">
+                                <label id="lbl_ADDRESS3" for="ADDRESS3">ADDRESS LINE 3</label>
+                                <input type="text" class="form-control" id="ADDRESS3" name="ADDRESS3" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_PHONE1" for="PHONE1">PHONE NUMBER</label>
+                                <input type="text" class="form-control" id="PHONE1" name="PHONE1" />
+                            </div>
+                            <div class="col-md-6">
+                                <label id="lbl_BRTHDATE" for="BRTHDATE">BIRTH DATE</label>
+                                <input type="date" class="form-control" id="BRTHDATE" name="BRTHDATE" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_GenderDropDown" for="GenderDropDown">GENDER</label>
+                                <select id="GenderDropDown" name="EmployeeGenderID" class="form-control">
+                                    <option value="">-- Select gender --</option>
+                                    Example options
+                                    @foreach (var gender in ViewBag.GenderDropDown)
+                                    {
+                                        <option value="@gender.EmployeeGenderID">@gender.EmployeeGender</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label id="lbl_Gp_JobTitleDropDown" for="Gp_JobTitleDropDown">JOB TITLE</label>
+                                <select id="Gp_JobTitleDropDown" name="JOBTITLE" class="form-control">
+                                    <option value="">-- Select job title --</option>
+                                    Example options
+                                    @foreach (var JobTitle in ViewBag.Gp_JobTitleDropDown)
+                                    {
+                                        <option value="@JobTitle.JOBTITLE">@JobTitle.DSCRIPTN</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_Gp_DepartmentDropDown" for="Gp_DepartmentDropDown">DEPARTMENT</label>
+                                <select id="Gp_DepartmentDropDown" name="DEPRTMNT" class="form-control">
+                                    <option value="">-- Select department --</option>
+                                    Example options
+                                    @foreach (var department in ViewBag.Gp_DepartmentDropDown)
+                                    {
+                                        <option value="@department.DEPRTMNT">@department.DSCRIPTN</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label id="lbl_LASTDAYWORKED" for="LASTDAYWORKED">LAST DAY WORKED</label>
+                                <input type="date" class="form-control" id="LASTDAYWORKED" name="LASTDAYWORKED" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_STRTDATE" for="STRTDATE">START DATE</label>
+                                <input type="date" class="form-control" id="STRTDATE" name="STRTDATE" />
+                            </div>
+                            <div class="col-md-6">
+                                <label id="lbl_TerminationReason" for="TerminationReason">TERMINATION REASON</label>
+                                <textarea class="form-control" id="TerminationReason" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_EmployeeMaritalStatusID" for="EmployeeMaritalStatusID">MARITAL STATUS</label>
+                                <select id="EmployeeMaritalStatusID" name="EmployeeMaritalStatusID" class="form-control">
+                                    <option value="">-- Select status --</option>
+                                    Example options
+                                    @foreach (var MaritalStatus in ViewBag.MaritalStatusDropDown)
+                                    {
+                                        <option value="@MaritalStatus.EmployeeMaritalStatusID">@MaritalStatus.EmployeeMaritalStatus</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label id="lbl_InactiveCheckbox" for="INACTIVE">INACTIVE</label>
+                                <div class="checkbox">
+                                    <input class="form-check-input" type="checkbox" value="" id="InactiveCheckbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    @*<div class="row">
+
+
+                        </div>*@
+                    <!--</div>-->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl_Gp_DivisionCodeDropDown" for="Gp_DivisionCodeDropDown">DIVISION CODE</label>
+                                <select id="Gp_DivisionCodeDropDown" name="DIVISIONCODE_I" class="form-control">
+                                    <option value="">-- Select division code --</option>
+                                    Example options
+                                    @foreach (var DivisionCode in ViewBag.Gp_DivisionCodeDropDown)
+                                    {
+                                        <option value="@DivisionCode.DIVISIONCODE_I">@DivisionCode.DIVISION_I</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCloseModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnCreateEmployee" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+    <img id="dotLoaderEarning" src="~/Content/Images/dot_loader.gif" alt="Loading..." style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; display:none" />
+</div>
+
+
+<script src="~/Content/jquery/dist/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script src="~/Content/bootstrap/dist/js/bootstrap.js"></script>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#btnAddEmployee").on("click", function () {
+                $('#addEmployeeModal').modal('show')
+            });
+            setTimeout(function () {
+                $('#tblEmployeesList').DataTable({
+                });
+            }, 500);
+            $('#btnCreateEmployee').click(function () {
+                console.log("Button clicked");
+                $('#dotLoaderEarning').css('display','block');
+                CreateEmployee();
+                $('#dotLoaderEarning').css('display', 'none');
+            })
+            $('#btnCloseModal').click(function () {
+                $('#addEmployeeModal').modal('hide')
+            })
+
+
+
+            $('#employeeTypeDropDown').change(function () {
+                ValidateAddForm();
+            })
+
+            $('#LASTNAME').change(function () {
+                ValidateAddForm();
+            })
+
+            $('#FRSTNAME').change(function () {
+                ValidateAddForm();
+            })
+
+            $('#SOCSCNUM').change(function () {
+                ValidateAddForm();
+            })
+
+            $('#PHONE1').change(function () {
+                ValidateAddForm();
+            })
+            $('#BRTHDATE').change(function () {
+                ValidateAddForm();
+            })
+            $('#ADDRESS1').change(function () {
+                ValidateAddForm();
+            })
+            $('#GenderDropDown').change(function () {
+                ValidateAddForm();
+            })
+            $('#Gp_DepartmentDropDown').change(function () {
+                ValidateAddForm();
+            })
+            $('#Gp_JobTitleDropDown').change(function () {
+                ValidateAddForm();
+            })
+            $('#STRTDATE').change(function () {
+                ValidateAddForm();
+            })
+            $('#EmployeeMaritalStatusID').change(function () {
+                ValidateAddForm();
+            })
+            $('#Gp_DivisionCodeDropDown').change(function () {
+                ValidateAddForm();
+            })
+        
+
+
+
+            function CreateEmployee() {
+                var result = ValidateAddForm();
+                if (result == false) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Please fill all fields!",
+                    });
+                    return false;
+                    $('#dotLoaderEarning').css('display', 'none');
+                }
+                $('#dotLoaderEarning').css('display', 'block');
+
+
+                let checkbox = $('#InactiveCheckbox');
+
+                let isChecked = checkbox.is(':checked') ? 1 : 0;
+
+                var empObject = {
+                    EMPLOYID: $('#EMPLOYID').val(),
+                    EmployeeTypeID: $('#employeeTypeDropDown option:selected').val(),
+                    LASTNAME: $('#LASTNAME').val(),
+                    FRSTNAME: $('#FRSTNAME').val(),
+                    MIDLNAME: $('#MIDLNAME').val(),
+                    SOCSCNUM: $('#SOCSCNUM').val(),
+                    ADRSCODE: $('#ADRSCODE').val(),
+                    ADDRESS1: $('#ADDRESS1').val(),
+                    ADDRESS2: $('#ADDRESS2').val(),
+                    ADDRESS3: $('#ADDRESS3').val(),
+                    PHONE1: $('#PHONE1').val(),
+                    BRTHDATE: $('#BRTHDATE').val(),
+                    EmployeeGenderID: $('#GenderDropDown option:selected').val(),
+                    DEPRTMNT: $('#Gp_DepartmentDropDown option:selected').val(),
+                    JOBTITLE: $('#Gp_JobTitleDropDown option:selected').val(),
+                    STRTDATE: $('#STRTDATE').val(),
+                    EmployeeMaritalStatusID: $('#EmployeeMaritalStatusID option:selected').val(),
+                    LASTDAYWORKED: $('#LASTDAYWORKED').val(),
+                    TerminationReason: $('#TerminationReason').val(),
+                    DIVISIONCODE_I: $('#Gp_DivisionCodeDropDown option:selected').val(),
+                    INACTIVE: isChecked,
+                };
+
+
+                console.log("Sending data:", empObject);
+                //alert('Hello'),
+                $.ajax({
+                    url: '/employees/Create',
+                    data: empObject,
+                    type: 'post',
+                    success: function (response) {
+                        console.log("Success response:", response);
+                        if (response == null || response.length == 0) {
+                            setTimeout(function () {
+                                Swal.fire(
+                                    'Good job!',
+                                    'Record updated successfully',
+                                    'success'
+                                );
+                                location.reload();
+                            }, 1500);
+                        } else {
+                            console.log("Error response:", response);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown + '-' + textStatus);
+                        //Swal.fire({
+                        //    icon: "error",
+                        //    title: "Oops...",
+                        //    text: errorThrown,
+                        //});
+                    }
+                });
+            }
+
+            function ValidateAddForm() {
+
+                var isValid = true;
+                var str = '*'
+
+                if ($('#employeeTypeDropDown').val().trim() == "" || $('#employeeTypeDropDown').val().trim() === "0") {
+                    //$('#lblAccount').html()[0].empty();
+                    $('#lbl_employeeTypeDropDown').empty();
+                    $('#lbl_employeeTypeDropDown').append("EMPLOYEE TYPE *").css('color', 'Red');
+                    $('#employeeTypeDropDown').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#employeeTypeDropDown').css('border-color', 'lightgrey');
+                    $('#lbl_employeeTypeDropDown').empty();
+                    $('#lbl_employeeTypeDropDown').append("EMPLOYEE TYPE").css('color', 'Black');
+                }
+
+                if ($('#LASTNAME').val().trim() === "" || $('#LASTNAME').val().trim() === "0") {
+                    $('#lbl_LASTNAME').empty();
+                    $('#lbl_LASTNAME').append("LAST NAME *").css('color', 'Red');
+                    $('#LASTNAME').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#LASTNAME').css('border-color', 'lightgrey');
+                    $('#lbl_LASTNAME').empty();
+                    $('#lbl_LASTNAME').append("LAST NAME").css('color', 'Black');
+                }
+
+                if ($('#FRSTNAME').val().trim() == "" || $('#FRSTNAME').val().trim() === "0") {
+                    $('#lbl_FRSTNAME').empty();
+                    $('#lbl_FRSTNAME').append("FIRST NAME *").css('color', 'Red');
+                    $('#FRSTNAME').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#FRSTNAME').css('border-color', 'lightgrey');
+                    $('#lbl_FRSTNAME').empty();
+                    $('#lbl_FRSTNAME').append("FIRST NAME").css('color', 'Black');
+                }
+
+                if ($('#SOCSCNUM').val().trim() == "") {
+                    $('#lbl_SOCSCNUM').empty();
+                    $('#lbl_SOCSCNUM').append("ID NUMBER *").css('color', 'Red');
+                    $('#SOCSCNUM').css('border-color', 'Red');
+                     isValid = false;
+                 }
+                 else {
+                    $('#SOCSCNUM').css('border-color', 'lightgrey');
+                    $('#lbl_SOCSCNUM').empty();
+                    $('#lbl_SOCSCNUM').append("ID NUMBER").css('color', 'Black');
+                }
+                if ($('#ADDRESS1').val().trim() == "") {
+                    $('#lbl_ADDRESS1').empty();
+                    $('#lbl_ADDRESS1').append("ADDRESS 1 *").css('color', 'Red');
+                    $('#ADDRESS1').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#ADDRESS1').css('border-color', 'lightgrey');
+                    $('#lbl_ADDRESS1').empty();
+                    $('#lbl_ADDRESS1').append("ADDRESS 1").css('color', 'Black');
+                }
+                if ($('#PHONE1').val().trim() == "") {
+                    $('#lbl_PHONE1').empty();
+                    $('#lbl_PHONE1').append("PHONE 1 *").css('color', 'Red');
+                    $('#PHONE1').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#PHONE1').css('border-color', 'lightgrey');
+                    $('#lbl_PHONE1').empty();
+                    $('#lbl_PHONE1').append("PHONE 1").css('color', 'Black');
+                }
+                if ($('#BRTHDATE').val().trim() == "") {
+                    $('#lbl_BRTHDATE').empty();
+                    $('#lbl_BRTHDATE').append("BIRTHDATE *").css('color', 'Red');
+                    $('#BRTHDATE').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#BRTHDATE').css('border-color', 'lightgrey');
+                    $('#lbl_BRTHDATE').empty();
+                    $('#lbl_BRTHDATE').append("BIRTHDATE").css('color', 'Black');
+                }
+                if ($('#GenderDropDown').val().trim() == "") {
+                    $('#lbl_GenderDropDown').empty();
+                    $('#lbl_GenderDropDown').append("GENDER *").css('color', 'Red');
+                    $('#GenderDropDown').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#GenderDropDown').css('border-color', 'lightgrey');
+                    $('#lbl_GenderDropDown').empty();
+                    $('#lbl_GenderDropDown').append("GENDER").css('color', 'Black');
+                }
+                if ($('#Gp_DepartmentDropDown').val().trim() == "") {
+                    $('#lbl_Gp_DepartmentDropDown').empty();
+                    $('#lbl_Gp_DepartmentDropDown').append("DEPARTMENT *").css('color', 'Red');
+                    $('#Gp_DepartmentDropDown').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#Gp_DepartmentDropDown').css('border-color', 'lightgrey');
+                    $('#lbl_Gp_DepartmentDropDown').empty();
+                    $('#lbl_Gp_DepartmentDropDown').append("DEPARTMENT").css('color', 'Black');
+                }
+                if ($('#Gp_JobTitleDropDown').val().trim() == "") {
+                    $('#lbl_Gp_JobTitleDropDown').empty();
+                    $('#lbl_Gp_JobTitleDropDown').append("JOB TITLE *").css('color', 'Red');
+                    $('#Gp_JobTitleDropDown').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#Gp_JobTitleDropDown').css('border-color', 'lightgrey');
+                    $('#lbl_Gp_JobTitleDropDown').empty();
+                    $('#lbl_Gp_JobTitleDropDown').append("JOB TITLE").css('color', 'Black');
+                }
+                if ($('#STRTDATE').val().trim() == "") {
+                    $('#lbl_STRTDATE').empty();
+                    $('#lbl_STRTDATE').append("START DATE *").css('color', 'Red');
+                    $('#STRTDATE').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#STRTDATE').css('border-color', 'lightgrey');
+                    $('#lbl_STRTDATE').empty();
+                    $('#lbl_STRTDATE').append("START DATE").css('color', 'Black');
+                }
+                if ($('#EmployeeMaritalStatusID').val().trim() == "") {
+                    $('#lbl_EmployeeMaritalStatusID').empty();
+                    $('#lbl_EmployeeMaritalStatusID').append("MARITAL STATUS *").css('color', 'Red');
+                    $('#EmployeeMaritalStatusID').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#EmployeeMaritalStatusID').css('border-color', 'lightgrey');
+                    $('#lbl_EmployeeMaritalStatusID').empty();
+                    $('#lbl_EmployeeMaritalStatusID').append("MARITAL STATUS").css('color', 'Black');
+                }
+                if ($('#Gp_DivisionCodeDropDown').val().trim() == "") {
+                    $('#lbl_Gp_DivisionCodeDropDown').empty();
+                    $('#lbl_Gp_DivisionCodeDropDown').append("DIVISION CODE *").css('color', 'Red');
+                    $('#Gp_DivisionCodeDropDown').css('border-color', 'Red');
+                    isValid = false;
+                }
+                else {
+                    $('#Gp_DivisionCodeDropDown').css('border-color', 'lightgrey');
+                    $('#lbl_Gp_DivisionCodeDropDown').empty();
+                    $('#lbl_Gp_DivisionCodeDropDown').append("DIVISION CODE").css('color', 'Black');
+                }
+                return isValid;
+            };
+
+        });
+    </script>
+}

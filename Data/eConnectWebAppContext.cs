@@ -19,6 +19,15 @@ namespace eConnectWebApp.Data
         {
         }
 
-        public System.Data.Entity.DbSet<eConnectWebApp.Models.Employee> Employees { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.EmployeeVm> Pay_Employees { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.Pay_Employee> UPR00100 { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.Pay_EmployeeGender> Pay_EmployeeGender { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.Pay_EmployeeMaritalStatus> Pay_EmployeeMaritalStatus { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.Pay_EmployeeType> Pay_EmployeeType { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.UPR40300> Gp_Department { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.HR2DIV02> Gp_DivisionCode { get; set; }
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.UPR40301> Gp_JobTitle { get; set; }
+
+        public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.EmployeeListDetailsVm> EmployeeListDetailsVms { get; set; }
     }
 }

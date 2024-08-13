@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -137,11 +140,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Pay_EmployeeGenderController.cs" />
     <Compile Include="Data\eConnectWebAppContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Mappings\Mapper.cs" />
+    <Compile Include="Models\UPR40300.cs" />
+    <Compile Include="Models\HR2DIV02.cs" />
+    <Compile Include="Models\UPR40301.cs" />
+    <Compile Include="Models\Pay_Employee.cs" />
+    <Compile Include="Models\Pay_EmployeeType.cs" />
+    <Compile Include="Models\ViewModels\EmployeeListDetailsVm.cs" />
+    <Compile Include="Models\ViewModels\EmployeeVm.cs" />
+    <Compile Include="Models\Pay_EmployeeGender.cs" />
+    <Compile Include="Models\Pay_EmployeeMaritalStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +174,21 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\DataTables\datatables.css" />
+    <Content Include="Content\DataTables\datatables.js" />
+    <Content Include="Content\DataTables\datatables.min.css" />
+    <Content Include="Content\DataTables\datatables.min.js" />
+    <Content Include="Content\dateTimePicker\demo\demo.css" />
+    <Content Include="Content\dateTimePicker\demo\es5-shim.min.js" />
+    <Content Include="Content\dateTimePicker\demo\index.html" />
+    <Content Include="Content\dateTimePicker\dist\date-time-picker.min.js" />
+    <Content Include="Content\dateTimePicker\gulpfile.js" />
+    <Content Include="Content\dateTimePicker\postcss.config.js" />
+    <Content Include="Content\dateTimePicker\src\date-time-picker.html" />
+    <Content Include="Content\dateTimePicker\src\date-time-picker.js" />
+    <Content Include="Content\Images\dot_loader.gif" />
+    <Content Include="Content\SweetAlert\SweetAlerMin.js" />
+    <Content Include="Content\SweetAlert\SweetAlert.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -170,6 +198,11 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\dateTimePicker\.editorconfig" />
+    <Content Include="Content\dateTimePicker\.gitignore" />
+    <Content Include="Content\dateTimePicker\package.json" />
+    <Content Include="Content\dateTimePicker\README.md" />
+    <Content Include="Content\dateTimePicker\src\date-time-picker.less" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -195,14 +228,18 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Pay_EmployeeGender\Create.cshtml" />
+    <Content Include="Views\Pay_EmployeeGender\Delete.cshtml" />
+    <Content Include="Views\Pay_EmployeeGender\Details.cshtml" />
+    <Content Include="Views\Pay_EmployeeGender\Edit.cshtml" />
+    <Content Include="Views\Pay_EmployeeGender\Index.cshtml" />
     <Content Include="Views\Employees\Create.cshtml" />
-    <Content Include="Views\Employees\Delete.cshtml" />
-    <Content Include="Views\Employees\Details.cshtml" />
-    <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Files_Store\Employee\" />
+    <Folder Include="Models\EmployeeDropDown\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

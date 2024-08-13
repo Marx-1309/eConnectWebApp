@@ -6,7 +6,7 @@ using System.Web;
 
 namespace eConnectWebApp.Models
 {
-    public class Employee
+    public class Pay_Employee
     {
         [Key]
         public string EMPLOYID { get; set; } = Guid.NewGuid().ToString();

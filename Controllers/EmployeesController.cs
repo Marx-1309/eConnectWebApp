@@ -17,17 +17,66 @@ using Microsoft.Dynamics.GP.eConnect;
 using Microsoft.Dynamics.GP.eConnect.Serialization;
 using eConnectWebApp.Models;
 using eConnectWebApp.Data;
+using eConnectWebApp.Models.ViewModels;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Web.Script.Serialization;
 
 namespace eConnectWebApp.Controllers
 {
     public class EmployeesController : Controller
     {
         private eConnectWebAppContext db = new eConnectWebAppContext();
+        string sqlConnectionString;
+        string gpConnectionString;
 
+        public EmployeesController()
+        {
+            sqlConnectionString = ConfigurationManager.ConnectionStrings["eConnectWebAppContext"].ConnectionString;
+            gpConnectionString = @"data source=localhost;initial catalog=TWO;integrated security=SSPI;persist security info=False;packet size=4096"; 
+        }
         // GET: Employees
         public ActionResult Index()
         {
-            return View(db.Employees.ToList());
+            //EmployeeVm employeeVm = new EmployeeVm();
+            //employeeVm.Pay_EmployeeGender = db.Pay_EmployeeGender.ToList();
+            //employeeVm.Pay_EmployeeMaritalStatus = db.Pay_EmployeeMaritalStatus.ToList();
+            //employeeVm.Pay_EmpmarStatus = db.Pay_EmployeeMaritalStatus.ToList();
+
+            return View(GetEmployees());
+        }
+
+        public List<EmployeeListDetailsVm> GetEmployees()
+        {
+            ViewBag.GenderDropDown = db.Pay_EmployeeGender.ToList();
+            ViewBag.MaritalStatusDropDown = db.Pay_EmployeeMaritalStatus.ToList();
+            ViewBag.EmployeeTypeDropDown = db.Pay_EmployeeType.ToList();
+            ViewBag.Gp_DepartmentDropDown = db.Gp_Department.ToList();
+            ViewBag.Gp_DivisionCodeDropDown = db.Gp_DivisionCode.ToList();
+            ViewBag.Gp_JobTitleDropDown = db.Gp_JobTitle.ToList();
+
+            //string cs = ConfigurationManager.ConnectionStrings["eConnectWebAppContext"].ConnectionString;
+            List<EmployeeListDetailsVm> employees = new List<EmployeeListDetailsVm>();
+            using (SqlConnection con = new SqlConnection(sqlConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetEmployees", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    EmployeeListDetailsVm employee = new EmployeeListDetailsVm();
+
+                    employee.EMPLOYID = rdr["EMPLOYID"].ToString();
+                    employee.FRSTNAME = rdr["FRSTNAME"].ToString();
+                    employee.LASTNAME = rdr["LASTNAME"].ToString();
+                    employee.SOCSCNUM = rdr["SOCSCNUM"].ToString();
+                    employee.GENDER = rdr["EmployeeGender"].ToString();
+
+                    employees.Add(employee);
+                }
+                return employees;
+            }
         }
 
         // GET: Employees/Details/5
@@ -37,7 +86,7 @@ namespace eConnectWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            EmployeeVm employee = db.Pay_Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -48,6 +97,12 @@ namespace eConnectWebApp.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
+            ViewBag.GenderDropDown = db.Pay_EmployeeGender.ToList();
+            ViewBag.MaritalStatusDropDown = db.Pay_EmployeeMaritalStatus.ToList();
+            ViewBag.EmployeeTypeDropDown = db.Pay_EmployeeType.ToList();
+            ViewBag.Gp_DepartmentDropDown = db.Gp_Department.ToList();
+            ViewBag.Gp_DivisionCodeDropDown = db.Gp_DivisionCode.ToList();
+            ViewBag.Gp_JobTitleDropDown = db.Gp_JobTitle.ToList();
             return View();
         }
 
@@ -56,7 +111,7 @@ namespace eConnectWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[STAThread]
         [HttpPost]
-        public  ActionResult Create(Employee empObject)
+        public  JsonResult Create(EmployeeVm employee)
         {
             string sCustomerDocument;
             string sXsdSchema;
@@ -66,18 +121,24 @@ namespace eConnectWebApp.Controllers
             {
                 try
                 {
+                    EmployeeVm employeeVm = new EmployeeVm();
+                    var emp = db.Pay_EmployeeGender.ToList();
+                    //employeeVm.Pay_EmployeeMaritalStatus = db.Pay_EmployeeMaritalStatus.ToList();
+                    //employeeVm.Pay_EmpmarStatus = db.Pay_EmployeeMaritalStatus.ToList();
                     // Create the customer data file
                     //SerializeCustomerObject("Customer.xml");
-                    SerializeEmployeeObject("Employee1.xml", empObject);
+                    string empNames = string.Concat(employee.FRSTNAME," ", employee.LASTNAME);
+                    employee.EMPLOYID = GenerateUniqueClientCode(empNames);
+
+                    SerializeEmployeeObject("Employee.xml", employee);
 
                     // Use an XML document to create a string representation of the customer
                     XmlDocument xmldoc = new XmlDocument();
-                    xmldoc.Load("Employee1.xml");
+                    xmldoc.Load($"{Directory.GetCurrentDirectory()}\\Files_Store\\Employee\\Employee.xml");
                     sCustomerDocument = xmldoc.OuterXml;
 
                     // Specify the Microsoft Dynamics GP server and database in the connection string
                     //sConnectionString =  configuration.GetConnectionString("eConnectWebAppContext").ToString();
-                    sConnectionString = @"data source=localhost;initial catalog=TWO;integrated security=SSPI;persist security info=False;packet size=4096";
 
                     // Create an XML Document object for the schema
                     XmlDocument XsdDoc = new XmlDocument();
@@ -86,8 +147,8 @@ namespace eConnectWebApp.Controllers
                     sXsdSchema = XsdDoc.OuterXml;
 
                     // Pass in xsdSchema to validate against.
-                    eConnectDbContext.CreateTransactionEntity(sConnectionString, sCustomerDocument);
-
+                    eConnectDbContext.CreateTransactionEntity(gpConnectionString, sCustomerDocument);
+                    Dispose();
                     //Test2.Hello();
                 }
                 // The eConnectException class will catch eConnect business logic errors.
@@ -112,7 +173,7 @@ namespace eConnectWebApp.Controllers
             } // end of using statement
         }
 
-        public static void SerializeEmployeeObject(string filename, Employee empObj)
+        public static void SerializeEmployeeObject(string filename, EmployeeVm empObj)
         {
             try
             {
@@ -120,8 +181,6 @@ namespace eConnectWebApp.Controllers
                 eConnectType eConnect = new eConnectType();
                 // Instantiate a RMCustomerMasterType schema object
                 UPRCreateEmployeeType employee = new UPRCreateEmployeeType();
-                UPRCreateEmployeeType uPRCreateEmployeeType = new UPRCreateEmployeeType();
-
 
 
                 XmlSerializer serializer = new XmlSerializer(eConnect.GetType());
@@ -132,54 +191,54 @@ namespace eConnectWebApp.Controllers
                     EMPLOYID = empObj.EMPLOYID,
                     FRSTNAME = empObj.FRSTNAME,
                     LASTNAME = empObj.LASTNAME,
-                    ADDRESS1 = empObj.ADDRESS1,
-                    ADRSCODE = empObj.ADRSCODE,
-                    CITY = empObj.CITY,
-                    ZIPCODE = empObj.ZIPCODE,
-                    EMPLCLAS = empObj.EMPLCLAS,
-                    INACTIVE = 0,
-                    MIDLNAME = empObj.MIDLNAME,
-                    EMPLSUFF = empObj.EMPLSUFF,
-                    ADDRESS2 = empObj.ADDRESS2,
-                    ADDRESS3 = empObj.ADDRESS3,
-                    STATE = empObj.STATE,
-                    COUNTY = empObj.COUNTY,
-                    COUNTRY = empObj.COUNTRY,
-                    PHONE1 = empObj.PHONE1,
-                    PHONE2 = empObj.PHONE2,
-                    PHONE3 = empObj.PHONE3,
-                    FAX = empObj.FAX,
-                    BRTHDATE = empObj.BRTHDATE,
-                    GENDER = (short)empObj.GENDER,
+                    ADDRESS1 = empObj.ADDRESS1 ?? "",
+                    ADRSCODE = empObj.ADRSCODE ?? "",
+                    CITY = empObj.CITY ?? "",
+                    ZIPCODE = empObj.ZIPCODE ?? "",
+                    EMPLCLAS = empObj.EMPLCLAS ?? "",
+                    INACTIVE = (short)empObj.INACTIVE,
+                    MIDLNAME = empObj.MIDLNAME ?? "",
+                    EMPLSUFF = empObj.EMPLSUFF ?? "",
+                    ADDRESS2 = empObj.ADDRESS2 ?? "",
+                    ADDRESS3 = empObj.ADDRESS3 ?? "",
+                    STATE = empObj.STATE ?? "",
+                    COUNTY = empObj.COUNTY ?? "",
+                    COUNTRY = empObj.COUNTRY ?? "",
+                    PHONE1 = empObj.PHONE1 ?? "",
+                    PHONE2 = empObj.PHONE2 ?? "",
+                    PHONE3 = empObj.PHONE3 ?? "",
+                    FAX = empObj.FAX ?? "",
+                    BRTHDATE = empObj.BRTHDATE ?? "",
+                    GENDER = (short)empObj.EmployeeGenderID,
                     ETHNORGN = (short)empObj.ETHNORGN,
-                    DIVISIONCODE_I = empObj.DIVISIONCODE_I,
-                    SUPERVISORCODE_I = empObj.SUPERVISORCODE_I,
-                    LOCATNID = empObj.LOCATNID,
+                    DIVISIONCODE_I = empObj.DIVISIONCODE_I ?? "",
+                    SUPERVISORCODE_I = empObj.SUPERVISORCODE_I ?? "",
+                    LOCATNID = empObj.LOCATNID ?? "",
                     WCACFPAY = (short)empObj.WCACFPAY,
-                    AccountNumber = empObj.AccountNumber,
-                    WKHRPRYR = (short)empObj.WKHRPRYR,
-                    STRTDATE = empObj.STRTDATE,
-                    DEMPINAC = empObj.DEMPINAC ?? "",
-                    RSNEMPIN = empObj.RSNEMPIN,
-                    SUTASTAT = empObj.SUTASTAT,
-                    WRKRCOMP = empObj.WRKRCOMP,
-                    STMACMTH = (short)empObj.STMACMTH,
-                    USERDEF1 = empObj.USRDEFND1,
-                    USERDEF2 = empObj.USERDEF2,
+                    AccountNumber = empObj.AccountNumber ?? "",
+                    //WKHRPRYR = (short)empObj.WKHRPRYR,
+                    STRTDATE = empObj.STRTDATE ?? "",
+                    //DEMPINAC = empObj.DEMPINAC ?? "",
+                    //RSNEMPIN = empObj.RSNEMPIN ?? "",
+                    //SUTASTAT = empObj.SUTASTAT ?? "",
+                    //WRKRCOMP = empObj.WRKRCOMP ?? "",
+                    //STMACMTH = (short)empObj.STMACMTH,
+                    //USERDEF1 = empObj.USRDEFND1 ?? "",
+                    //USERDEF2 = empObj.USERDEF2 ?? "",
                     MARITALSTATUS = (short)empObj.MARITALSTATUS,
-                    BENADJDATE = empObj.BENADJDATE,
-                    LASTDAYWORKED_I = empObj.LASTDAYWORKED_I,
-                    BIRTHDAY = (short)empObj.BIRTHDAY,
-                    BIRTHMONTH = (short)empObj.BIRTHMONTH,
-                    SPOUSE = empObj.SPOUSE,
-                    SPOUSESSN = empObj.SPOUSESSN,
-                    NICKNAME = empObj.NICKNAME,
-                    ALTERNATENAME = empObj.ALTERNATENAME,
-                    STATUSCD = empObj.STATUSCD,
+                    //BENADJDATE = empObj.BENADJDATE ?? "",
+                    LASTDAYWORKED_I = empObj.LASTDAYWORKED_I ?? "",
+                    //BIRTHDAY = (short)empObj.BIRTHDAY,
+                    //BIRTHMONTH = (short)empObj.BIRTHMONTH,
+                    //SPOUSE = empObj.SPOUSE ?? "",
+                    //SPOUSESSN = empObj.SPOUSESSN ?? "",
+                    //NICKNAME = empObj.NICKNAME ?? "",
+                    //ALTERNATENAME = empObj.ALTERNATENAME ?? "",
+                    STATUSCD = empObj.STATUSCD ?? "",
                     HRSTATUS = (short)empObj.HRSTATUS,
-                    DATEOFLASTREVIEW_I = empObj.DATEOFLASTREVIEW_I,
-                    DATEOFNEXTREVIEW_I = empObj.DATEOFNEXTREVIEW_I,
-                    BENEFITEXPIRE_I = empObj.BENEFITEXPIRE_I,
+                    DATEOFLASTREVIEW_I = empObj.DATEOFLASTREVIEW_I ?? "",
+                    DATEOFNEXTREVIEW_I = empObj.DATEOFNEXTREVIEW_I ?? "",
+                    BENEFITEXPIRE_I = empObj.BENEFITEXPIRE_I ?? "",
                     HANDICAPPED = (short)empObj.HANDICAPPED,
                     VETERAN = (short)empObj.VETERAN,
                     VIETNAMVETERAN = (short)empObj.VIETNAMVETERAN,
@@ -188,42 +247,48 @@ namespace eConnectWebApp.Controllers
                     SMOKER_I = (short)empObj.SMOKER_I,
                     CITIZEN = (short)empObj.CITIZEN,
                     VERIFIED = (short)empObj.VERIFIED,
-                    I9RENEW = empObj.I9RENEW,
-                    Primary_Pay_Record = empObj.Primary_Pay_Record,
-                    CHANGEBY_I = empObj.CHANGEBY_I,
-                    CHANGEDATE_I = empObj.CHANGEDATE_I,
-                    UNIONCD = empObj.UNIONCD,
-                    RATECLSS = empObj.RATECLSS,
-                    FEDCLSSCD = empObj.FEDCLSSCD,
+                    I9RENEW = empObj.I9RENEW ?? "",
+                    Primary_Pay_Record = empObj.Primary_Pay_Record ?? "",
+                    CHANGEBY_I = empObj.CHANGEBY_I ?? "",
+                    CHANGEDATE_I = empObj.CHANGEDATE_I ?? "",
+                    UNIONCD = empObj.UNIONCD ?? "",
+                    RATECLSS = empObj.RATECLSS ?? "",
+                    FEDCLSSCD = empObj.FEDCLSSCD ?? "",
                     OTHERVET = (short)empObj.OTHERVET,
-                    Military_Discharge_Date = empObj.Military_Discharge_Date,
+                    Military_Discharge_Date = empObj.Military_Discharge_Date ?? "",
                     DefaultFromClass = (short)empObj.DefaultFromClass,
                     UpdateIfExists = (short)(empObj.UpdateIfExists = 1),
                     RequesterTrx = (short)(empObj.RequesterTrx = 1),
-                    USRDEFND1 = empObj.USERDEF1,
-                    USRDEFND2 = empObj.USRDEFND2,
-                    USRDEFND3 = empObj.USRDEFND3,
-                    USRDEFND4 = empObj.USRDEFND4,
-                    USRDEFND5 = empObj.USRDEFND5,
-                    SOCSCNUM = empObj.SOCSCNUM,
-                    DEPRTMNT = empObj.DEPRTMNT ?? "SALE",
-                    JOBTITLE = empObj.JOBTITLE ?? "TEC",
+                    USRDEFND1 = empObj.USERDEF1 ?? "",
+                    USRDEFND2 = empObj.USRDEFND2 ?? "",
+                    USRDEFND3 = empObj.USRDEFND3 ?? "",
+                    USRDEFND4 = empObj.USRDEFND4 ?? "",
+                    USRDEFND5 = empObj.USRDEFND5 ?? "",
+                    SOCSCNUM = empObj.SOCSCNUM ?? "",
+                    DEPRTMNT = empObj.DEPRTMNT ?? "" /*?? "SALE"*/,
+                    JOBTITLE = empObj.JOBTITLE ?? "" /*?? "TEC"*/,
+                    ATACRSTM = 1
 
                 };
 
 
-                // Populate the RMCustomerMasterType schema with the taUpdateCreateCustomerRcd XML node
+
                 employee.taCreateEmployee = newCust;
                 UPRCreateEmployeeType[] myEmployeeMAster = { employee };
 
-                // Populate the eConnectType object with the RMCustomerMasterType schema object
                 eConnect.UPRCreateEmployeeType = myEmployeeMAster;
+                var uploadsFolder = $"{Directory.GetCurrentDirectory()}\\Files_Store\\Employee\\";
 
-                // Create objects to create file and write the customer XML to the file
-                FileStream fs = new FileStream(filename, FileMode.Create);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var filePath = Path.Combine(uploadsFolder,filename);
+
+                FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 XmlTextWriter writer = new XmlTextWriter(fs, new UTF8Encoding());
 
-                // Serialize the eConnectType object to a file using the XmlTextWriter.
                 serializer.Serialize(writer, eConnect);
                 writer.Close();
 
@@ -241,7 +306,7 @@ namespace eConnectWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            EmployeeVm employee = db.Pay_Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -254,7 +319,7 @@ namespace eConnectWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EMPLOYID,FRSTNAME,LASTNAME,ADDRESS1,ADRSCODE,CITY,ZIPCODE,EMPLCLAS,INACTIVE,MIDLNAME,EMPLSUFF,ADDRESS2,ADDRESS3,STATE,COUNTY,COUNTRY,PHONE1,PHONE2,PHONE3,FAX,BRTHDATE,GENDER,ETHNORGN,DIVISIONCODE_I,SUPERVISORCODE_I,LOCATNID,WCACFPAY,AccountNumber,WKHRPRYR,STRTDATE,DEMPINAC,RSNEMPIN,SUTASTAT,WRKRCOMP,STMACMTH,USERDEF1,USERDEF2,MARITALSTATUS,BENADJDATE,LASTDAYWORKED_I,BIRTHDAY,BIRTHMONTH,SPOUSE,SPOUSESSN,NICKNAME,ALTERNATENAME,STATUSCD,HRSTATUS,DATEOFLASTREVIEW_I,DATEOFNEXTREVIEW_I,BENEFITEXPIRE_I,HANDICAPPED,VETERAN,VIETNAMVETERAN,DISABLEDVETERAN,UNIONEMPLOYEE,SMOKER_I,CITIZEN,VERIFIED,I9RENEW,Primary_Pay_Record,CHANGEBY_I,CHANGEDATE_I,UNIONCD,RATECLSS,FEDCLSSCD,OTHERVET,Military_Discharge_Date,DefaultFromClass,UpdateIfExists,RequesterTrx,USRDEFND1,USRDEFND2,USRDEFND3,USRDEFND4,USRDEFND5,SOCSCNUM,DEPRTMNT,JOBTITLE")] Employee employee)
+        public ActionResult Edit([Bind(Include = "EMPLOYID,FRSTNAME,LASTNAME,ADDRESS1,ADRSCODE,CITY,ZIPCODE,EMPLCLAS,INACTIVE,MIDLNAME,EMPLSUFF,ADDRESS2,ADDRESS3,STATE,COUNTY,COUNTRY,PHONE1,PHONE2,PHONE3,FAX,BRTHDATE,GENDER,ETHNORGN,DIVISIONCODE_I,SUPERVISORCODE_I,LOCATNID,WCACFPAY,AccountNumber,WKHRPRYR,STRTDATE,DEMPINAC,RSNEMPIN,SUTASTAT,WRKRCOMP,STMACMTH,USERDEF1,USERDEF2,MARITALSTATUS,BENADJDATE,LASTDAYWORKED_I,BIRTHDAY,BIRTHMONTH,SPOUSE,SPOUSESSN,NICKNAME,ALTERNATENAME,STATUSCD,HRSTATUS,DATEOFLASTREVIEW_I,DATEOFNEXTREVIEW_I,BENEFITEXPIRE_I,HANDICAPPED,VETERAN,VIETNAMVETERAN,DISABLEDVETERAN,UNIONEMPLOYEE,SMOKER_I,CITIZEN,VERIFIED,I9RENEW,Primary_Pay_Record,CHANGEBY_I,CHANGEDATE_I,UNIONCD,RATECLSS,FEDCLSSCD,OTHERVET,Military_Discharge_Date,DefaultFromClass,UpdateIfExists,RequesterTrx,USRDEFND1,USRDEFND2,USRDEFND3,USRDEFND4,USRDEFND5,SOCSCNUM,DEPRTMNT,JOBTITLE")] EmployeeVm employee)
         {
             if (ModelState.IsValid)
             {
@@ -272,7 +337,7 @@ namespace eConnectWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            EmployeeVm employee = db.Pay_Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -285,8 +350,8 @@ namespace eConnectWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Employee employee = db.Employees.Find(id);
-            db.Employees.Remove(employee);
+            EmployeeVm employee = db.Pay_Employees.Find(id);
+            db.Pay_Employees.Remove(employee);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -298,6 +363,76 @@ namespace eConnectWebApp.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        private string GenerateUniqueClientCode(string name)
+        {
+            List<EmployeeListDetailsVm> employees = new List<EmployeeListDetailsVm>();
+            List<EmployeeListDetailsVm> employeesIdList = new List<EmployeeListDetailsVm>();
+
+            using (SqlConnection con = new SqlConnection(sqlConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetEmployees", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    EmployeeListDetailsVm employee = new EmployeeListDetailsVm();
+
+                    employee.EMPLOYID = rdr["EMPLOYID"].ToString();
+
+                    employees.Add(employee);
+                }
+
+                employeesIdList.AddRange(employees);
+            }
+
+            string[] words = name.Split(' ');
+            if (words.Length >= 3)
+            {
+                string initials = string.Join("", words.Take(3).Select(word => word[0].ToString().ToUpper()));
+                int count = 1;
+                string clientCode;
+                do
+                {
+                    clientCode = $"{initials}{count:D3}";
+                    bool codeExists = employeesIdList.Any(c => c.EMPLOYID.Trim() == clientCode.Trim());
+                    
+                    if (!codeExists)
+                    {
+                        break;
+                    }
+
+                    count++;
+                } while (true);
+
+                return clientCode;
+            }
+            else
+            {
+                name = name.Replace(" ", "").ToUpper();
+                while (name.Length < 3)
+                {
+                    name += 'A';
+                }
+                int count = 1;
+                string clientCode;
+                do
+                {
+                    clientCode = $"{name.Substring(0, 3)}{count:D3}";
+                    bool codeExists = employeesIdList.Any(c => c.EMPLOYID.Trim() == clientCode.Trim());
+                    if (!codeExists)
+                    {
+                        break;
+                    }
+
+                    count++;
+                } while (true);
+
+                return clientCode;
+            }
         }
     }
 }
