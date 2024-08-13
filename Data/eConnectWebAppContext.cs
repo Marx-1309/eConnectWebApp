@@ -20,7 +20,7 @@ namespace eConnectWebApp.Data
         }
 
         public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.EmployeeVm> Pay_Employees { get; set; }
-        public System.Data.Entity.DbSet<eConnectWebApp.Models.Pay_Employee> UPR00100 { get; set; }
+        //public System.Data.Entity.DbSet<eConnectWebApp.Models.Pay_Employee> UPR00100 { get; set; }
         public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.Pay_EmployeeGender> Pay_EmployeeGender { get; set; }
         public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.Pay_EmployeeMaritalStatus> Pay_EmployeeMaritalStatus { get; set; }
         public System.Data.Entity.DbSet<eConnectWebApp.Models.ViewModels.Pay_EmployeeType> Pay_EmployeeType { get; set; }

@@ -286,7 +286,7 @@ namespace eConnectWebApp.Controllers
 
                 var filePath = Path.Combine(uploadsFolder,filename);
 
-                FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
                 XmlTextWriter writer = new XmlTextWriter(fs, new UTF8Encoding());
 
                 serializer.Serialize(writer, eConnect);
@@ -298,73 +298,6 @@ namespace eConnectWebApp.Controllers
 
             }
         }
-
-        // GET: Employees/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EmployeeVm employee = db.Pay_Employees.Find(id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employee);
-        }
-
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EMPLOYID,FRSTNAME,LASTNAME,ADDRESS1,ADRSCODE,CITY,ZIPCODE,EMPLCLAS,INACTIVE,MIDLNAME,EMPLSUFF,ADDRESS2,ADDRESS3,STATE,COUNTY,COUNTRY,PHONE1,PHONE2,PHONE3,FAX,BRTHDATE,GENDER,ETHNORGN,DIVISIONCODE_I,SUPERVISORCODE_I,LOCATNID,WCACFPAY,AccountNumber,WKHRPRYR,STRTDATE,DEMPINAC,RSNEMPIN,SUTASTAT,WRKRCOMP,STMACMTH,USERDEF1,USERDEF2,MARITALSTATUS,BENADJDATE,LASTDAYWORKED_I,BIRTHDAY,BIRTHMONTH,SPOUSE,SPOUSESSN,NICKNAME,ALTERNATENAME,STATUSCD,HRSTATUS,DATEOFLASTREVIEW_I,DATEOFNEXTREVIEW_I,BENEFITEXPIRE_I,HANDICAPPED,VETERAN,VIETNAMVETERAN,DISABLEDVETERAN,UNIONEMPLOYEE,SMOKER_I,CITIZEN,VERIFIED,I9RENEW,Primary_Pay_Record,CHANGEBY_I,CHANGEDATE_I,UNIONCD,RATECLSS,FEDCLSSCD,OTHERVET,Military_Discharge_Date,DefaultFromClass,UpdateIfExists,RequesterTrx,USRDEFND1,USRDEFND2,USRDEFND3,USRDEFND4,USRDEFND5,SOCSCNUM,DEPRTMNT,JOBTITLE")] EmployeeVm employee)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(employee);
-        }
-
-        // GET: Employees/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EmployeeVm employee = db.Pay_Employees.Find(id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employee);
-        }
-
-        // POST: Employees/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            EmployeeVm employee = db.Pay_Employees.Find(id);
-            db.Pay_Employees.Remove(employee);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
 
         private string GenerateUniqueClientCode(string name)
         {

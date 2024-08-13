@@ -9,9 +9,9 @@ namespace eConnectWebApp.Models.Mappings
 {
     public class Mapper : Profile
     {
-        public Mapper()
-        {
-            CreateMap<EmployeeListDetailsVm, Pay_Employee>().ReverseMap();
-        }
+        //public Mapper()
+        //{
+        //    CreateMap<EmployeeListDetailsVm, Pay_Employee>().ReverseMap();
+        //}
     }
 }

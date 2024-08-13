@@ -140,7 +140,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Pay_EmployeeGenderController.cs" />
     <Compile Include="Data\eConnectWebAppContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -149,7 +148,6 @@
     <Compile Include="Models\UPR40300.cs" />
     <Compile Include="Models\HR2DIV02.cs" />
     <Compile Include="Models\UPR40301.cs" />
-    <Compile Include="Models\Pay_Employee.cs" />
     <Compile Include="Models\Pay_EmployeeType.cs" />
     <Compile Include="Models\ViewModels\EmployeeListDetailsVm.cs" />
     <Compile Include="Models\ViewModels\EmployeeVm.cs" />
@@ -228,11 +226,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Pay_EmployeeGender\Create.cshtml" />
-    <Content Include="Views\Pay_EmployeeGender\Delete.cshtml" />
-    <Content Include="Views\Pay_EmployeeGender\Details.cshtml" />
-    <Content Include="Views\Pay_EmployeeGender\Edit.cshtml" />
-    <Content Include="Views\Pay_EmployeeGender\Index.cshtml" />
     <Content Include="Views\Employees\Create.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
   </ItemGroup>
