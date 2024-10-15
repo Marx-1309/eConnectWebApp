@@ -128,7 +128,7 @@ namespace eConnectWebApp.Controllers
                     // Create the customer data file
                     //SerializeCustomerObject("Customer.xml");
                     string empNames = string.Concat(employee.FRSTNAME," ", employee.LASTNAME);
-                    employee.EMPLOYID = GenerateUniqueClientCode(empNames);
+                    employee.EMPLOYID = GenerateUniqueEmployeeCode(empNames);
 
                     SerializeEmployeeObject("Employee.xml", employee);
 
@@ -299,7 +299,7 @@ namespace eConnectWebApp.Controllers
             }
         }
 
-        private string GenerateUniqueClientCode(string name)
+        private string GenerateUniqueEmployeeCode(string name)
         {
             List<EmployeeListDetailsVm> employees = new List<EmployeeListDetailsVm>();
             List<EmployeeListDetailsVm> employeesIdList = new List<EmployeeListDetailsVm>();
@@ -327,11 +327,11 @@ namespace eConnectWebApp.Controllers
             {
                 string initials = string.Join("", words.Take(3).Select(word => word[0].ToString().ToUpper()));
                 int count = 1;
-                string clientCode;
+                string EmployeeCode;
                 do
                 {
-                    clientCode = $"{initials}{count:D3}";
-                    bool codeExists = employeesIdList.Any(c => c.EMPLOYID.Trim() == clientCode.Trim());
+                    EmployeeCode = $"{initials}{count:D3}";
+                    bool codeExists = employeesIdList.Any(c => c.EMPLOYID.Trim() == EmployeeCode.Trim());
                     
                     if (!codeExists)
                     {
@@ -341,7 +341,7 @@ namespace eConnectWebApp.Controllers
                     count++;
                 } while (true);
 
-                return clientCode;
+                return EmployeeCode;
             }
             else
             {
@@ -351,11 +351,11 @@ namespace eConnectWebApp.Controllers
                     name += 'A';
                 }
                 int count = 1;
-                string clientCode;
+                string EmployeeCode;
                 do
                 {
-                    clientCode = $"{name.Substring(0, 3)}{count:D3}";
-                    bool codeExists = employeesIdList.Any(c => c.EMPLOYID.Trim() == clientCode.Trim());
+                    EmployeeCode = $"{name.Substring(0, 3)}{count:D3}";
+                    bool codeExists = employeesIdList.Any(c => c.EMPLOYID.Trim() == EmployeeCode.Trim());
                     if (!codeExists)
                     {
                         break;
@@ -364,7 +364,7 @@ namespace eConnectWebApp.Controllers
                     count++;
                 } while (true);
 
-                return clientCode;
+                return EmployeeCode;
             }
         }
     }
